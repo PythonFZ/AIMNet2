@@ -1,0 +1,71 @@
+stages:
+  b973c_0:
+    cmd: zntrack run aimnet2.AIMNet2 --name b973c_0
+    deps:
+    - models/aimnet2_b973c_0.jpt
+    metrics:
+    - nodes/b973c_0/node-meta.json:
+        cache: false
+  b973c_1:
+    cmd: zntrack run aimnet2.AIMNet2 --name b973c_1
+    deps:
+    - models/aimnet2_b973c_1.jpt
+    metrics:
+    - nodes/b973c_1/node-meta.json:
+        cache: false
+  b973c_2:
+    cmd: zntrack run aimnet2.AIMNet2 --name b973c_2
+    deps:
+    - models/aimnet2_b973c_2.jpt
+    metrics:
+    - nodes/b973c_2/node-meta.json:
+        cache: false
+  b973c_3:
+    cmd: zntrack run aimnet2.AIMNet2 --name b973c_3
+    deps:
+    - models/aimnet2_b973c_3.jpt
+    metrics:
+    - nodes/b973c_3/node-meta.json:
+        cache: false
+  b973c_ens:
+    cmd: zntrack run aimnet2.AIMNet2 --name b973c_ens
+    deps:
+    - models/aimnet2_b973c_ens.jpt
+    metrics:
+    - nodes/b973c_ens/node-meta.json:
+        cache: false
+  wb97m_d3_0:
+    cmd: zntrack run aimnet2.AIMNet2 --name wb97m_d3_0
+    deps:
+    - models/aimnet2_wb97m-d3_0.jpt
+    metrics:
+    - nodes/wb97m_d3_0/node-meta.json:
+        cache: false
+  wb97m_d3_1:
+    cmd: zntrack run aimnet2.AIMNet2 --name wb97m_d3_1
+    deps:
+    - models/aimnet2_wb97m-d3_1.jpt
+    metrics:
+    - nodes/wb97m_d3_1/node-meta.json:
+        cache: false
+  wb97m_d3_2:
+    cmd: zntrack run aimnet2.AIMNet2 --name wb97m_d3_2
+    deps:
+    - models/aimnet2_wb97m-d3_2.jpt
+    metrics:
+    - nodes/wb97m_d3_2/node-meta.json:
+        cache: false
+  wb97m_d3_3:
+    cmd: zntrack run aimnet2.AIMNet2 --name wb97m_d3_3
+    deps:
+    - models/aimnet2_wb97m-d3_3.jpt
+    metrics:
+    - nodes/wb97m_d3_3/node-meta.json:
+        cache: false
+  wb97m_d3_ens:
+    cmd: zntrack run aimnet2.AIMNet2 --name wb97m_d3_ens
+    deps:
+    - models/aimnet2_wb97m-d3_ens.jpt
+    metrics:
+    - nodes/wb97m_d3_ens/node-meta.json:
+        cache: false

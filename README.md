@@ -1,3 +1,4 @@
+[![ZnTrack](https://img.shields.io/badge/Powered%20by-ZnTrack-%23007CB0)](https://zntrack.readthedocs.io/en/latest/)
 
 # AIMNet2: a general-purpose neural netrork potential for organic and element-organic molecules.
 
@@ -6,6 +7,31 @@ The repository contains AIMNet2 models, example Python code and supplementary da
 **AIMNet2: A Neural Network Potential to Meet your Neutral, Charged, Organic, and Elemental-Organic Needs**
 *Dylan Anstine ,Roman Zubatyuk ,Olexandr Isayev*
 [10.26434/chemrxiv-2023-296ch](https://doi.org/10.26434/chemrxiv-2023-296ch)
+
+## Deployment with ZnTrack
+To deploy these models using ZnTrack, you need to install this repository `pip install git+https://github.com/PythonFZ/AIMNet2.git`.
+
+Afterwards, you can load the models using
+```python
+import zntrack
+from ase.build import molecule
+
+model = zntrack.from_rev("wb97m_d3_ens", remote="https://github.com/PythonFZ/AIMNet2.git")
+atoms = molecule('H2O')
+
+atoms.calc = model.get_calculator()
+print(atoms.get_potential_energy())
+```
+If you want to use an older version of the model, you can pass the `rev=<sha>` argument, to select a different commit.
+
+Alternatively, to download the models permanently you can
+```bash
+git clone https://github.com/PythonFZ/AIMNet2.git
+cd AIMnet2
+dvc pull
+```
+and use `model = zntrack.from_rev("wb97m_d3_ens", remote=".")`.
+
   
 ## Models
 
@@ -52,7 +78,48 @@ Example command to run geometry optimization with docker image:
 ```bash
 docker run -it --rm -v $(pwd):/app/ aimnet-box models/aimnet2_wb97m-d3_ens.jpt input.sdf output.sdf --charge 0 --traj traj.xyz
 ```
-=======
+
+### Geometry Optimization using IPSuite
+You can use these models together with [IPSuite](https://github.com/zincware/IPSuite) (`pip install ipsuite`).
+In this example, we show a geometry optimization followed by an MD simulation of a condensed phase system.
+
+```python
+import zntrack
+import numpy as np
+import ipsuite as ips
+
+model = zntrack.from_rev("wb97m_d3_0", remote="https://github.com/PythonFZ/AIMNet2.git", rev="main")
+
+thermostat = ips.calculators.LangevinThermostat(
+    temperature=298.15, friction=0.01, time_step=0.5
+)
+
+with zntrack.Project(automatic_node_names=True) as proj:
+    emc = ips.configuration_generation.SmilesToAtoms(smiles="CCOC(=O)OC")
+    ec = ips.configuration_generation.SmilesToAtoms(smiles="C1COC(=O)O1")
+
+    structure = ips.configuration_generation.Packmol(
+        data=[emc.atoms, ec.atoms],
+        count=[40, 40],
+        density=1200,
+    )
+
+    geo_opt = ips.calculators.ASEGeoOpt(data=structure.atoms, model=model)
+
+    md = ips.calculators.ASEMD(
+            data=geo_opt.atoms,
+            data_id=-1,
+            model=model,
+            thermostat=thermostat,
+            steps=10_000,
+            sampling_rate=10,
+        )
+
+proj.run()
+
+md.load()
+print(md.atoms)
+```
 
 ### Feedback
 

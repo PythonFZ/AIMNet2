@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "aimnet2"
+version = "0.1.0"
+description = "AIMNet2: a general-purpose neural netrork potential for organic and element-organic molecules."
+authors = ["Dylan Anstine, Roman Zubatyuk, Olexandr Isayev, Fabian Zills"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+zntrack = "^0.7.0"
+ase = "^3.22.1"
+tqdm = "^4.66.1"
+torch = {version = "^2.1.0+cu118", source = "pytorch"}
+torchvision = {version = "^0.16.0+cu118", source = "pytorch"}
+dvc-s3 = "^2.23.0"
+
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu118"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
